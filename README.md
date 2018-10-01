@@ -1,3 +1,7 @@
+[![NPM Package](https://badge.fury.io/js/module-lens.svg)](https://www.npmjs.com/package/module-lens)
+[![Build Status](https://travis-ci.org/makeflow/module-lens.svg?branch=master)](https://travis-ci.org/makeflow/module-lens)
+[![Coverage Status](https://coveralls.io/repos/github/makeflow/module-lens/badge.svg?branch=master)](https://coveralls.io/github/makeflow/module-lens?branch=master)
+
 # Module Lens
 
 ## Installation
