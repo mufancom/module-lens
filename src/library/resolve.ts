@@ -11,26 +11,46 @@ export interface ResolveOptions {
   extensions?: string[];
 }
 
-export function resolve(
+export type ResolveCategory =
+  | 'built-in'
+  | 'absolute'
+  | 'relative'
+  | 'base-url'
+  | 'node-modules'
+  | 'none';
+
+export interface ResolveWithCategoryResult {
+  category: ResolveCategory;
+  path: string | undefined;
+}
+
+export function resolveWithCategory(
   specifier: string,
   {
     sourceFileName,
     baseUrlDir,
     extensions = ['.js', '.jsx', '.ts', '.tsx'],
   }: ResolveOptions,
-): string | undefined {
+): ResolveWithCategoryResult {
   if (isNodeBuiltIn(specifier)) {
-    return specifier;
+    return {
+      category: 'built-in',
+      path: specifier,
+    };
   }
 
   if (/^\//.test(specifier)) {
-    return Path.resolve(specifier);
+    return {
+      category: 'absolute',
+      path: Path.resolve(specifier),
+    };
   }
 
-  let sourceDir = Path.dirname(sourceFileName);
-
   if (/^\.{1,2}\//.test(specifier)) {
-    return Path.join(sourceDir, specifier);
+    return {
+      category: 'relative',
+      path: Path.join(Path.dirname(sourceFileName), specifier),
+    };
   }
 
   let [specifierFirstFragment] = /^[^/]+/.exec(
@@ -39,12 +59,18 @@ export function resolve(
 
   /* istanbul ignore if */
   if (!specifierFirstFragment) {
-    return undefined;
+    return {
+      category: 'none',
+      path: undefined,
+    };
   }
 
   if (baseUrlDir) {
+    let usingBaseUrl = false;
+
+    // First segment is exactly the whole specifier, possibly a file name.
     if (specifierFirstFragment === specifier) {
-      for (let extension of ['', ...extensions]) {
+      usingBaseUrl = ['', ...extensions].some(extension => {
         let possiblePathUsingBaseUrl = Path.join(
           baseUrlDir,
           `${specifier}${extension}`,
@@ -52,32 +78,53 @@ export function resolve(
 
         let possiblePathStats = gentleStat(possiblePathUsingBaseUrl);
 
-        if (possiblePathStats && possiblePathStats.isFile()) {
-          return Path.join(baseUrlDir, specifier);
-        }
-      }
+        return !!possiblePathStats && possiblePathStats.isFile();
+      });
     }
 
-    let possibleDirUsingBaseUrl = Path.join(baseUrlDir, specifierFirstFragment);
+    if (!usingBaseUrl) {
+      let possibleDirUsingBaseUrl = Path.join(
+        baseUrlDir,
+        specifierFirstFragment,
+      );
 
-    let possibleDirStats = gentleStat(possibleDirUsingBaseUrl);
+      let possibleDirStats = gentleStat(possibleDirUsingBaseUrl);
 
-    if (possibleDirStats && possibleDirStats.isDirectory()) {
-      return Path.join(baseUrlDir, specifier);
+      usingBaseUrl = !!possibleDirStats && possibleDirStats.isDirectory();
+    }
+
+    if (usingBaseUrl) {
+      return {
+        category: 'base-url',
+        path: Path.join(baseUrlDir, specifier),
+      };
     }
   }
 
   let nodeModulesParentDir = searchUpperDir(
-    sourceDir,
+    Path.dirname(sourceFileName),
     `node_modules/${specifierFirstFragment}`,
     isDirectorySearchFilter,
   );
 
   if (nodeModulesParentDir) {
-    return Path.join(nodeModulesParentDir, 'node_modules', specifier);
+    return {
+      category: 'node-modules',
+      path: Path.join(nodeModulesParentDir, 'node_modules', specifier),
+    };
   }
 
-  return undefined;
+  return {
+    category: 'none',
+    path: undefined,
+  };
+}
+
+export function resolve(
+  specifier: string,
+  options: ResolveOptions,
+): string | undefined {
+  return resolveWithCategory(specifier, options).path;
 }
 
 export function isNodeBuiltIn(specifier: string): boolean {
