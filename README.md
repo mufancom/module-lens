@@ -17,8 +17,17 @@ import {resolve} from 'module-lens';
 
 let path = resolve('foo/bar', {
   sourceFileName: __filename,
-  baseUrlDir: 'yoha',
+  baseUrlDir: __dirname,
 });
+
+console.log(path);
+
+let specifier = build(path, {
+  sourceFileName: __filename,
+  baseUrlDir: __dirname,
+});
+
+console.log(specifier);
 ```
 
 ## Difference from Package "resolve" by Browserify
