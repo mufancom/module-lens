@@ -14,7 +14,8 @@
     "lint:test": "tslint -p test",
     "test:library": "yarn build:library && yarn lint:library && jest",
     "test:test": "yarn typecheck:test && yarn lint:test",
-    "test": "yarn test:library && yarn test:test"
+    "test": "yarn test:library && yarn test:test",
+    "report-coverage": "cat coverage/lcov.info | coveralls"
   },
   "main": "bld/library/index.js",
   "types": "bld/library/index.d.ts",
@@ -27,6 +28,7 @@
     "@types/jest": "^23.3.2",
     "@types/lodash": "^4.14.116",
     "@types/node": "^10.11.3",
+    "coveralls": "^3.0.2",
     "jest": "^23.6.0",
     "prettier": "^1.14.3",
     "rimraf": "^2.6.2",
