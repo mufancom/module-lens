@@ -17,7 +17,7 @@ let path = resolve('foo/bar', {
 });
 ```
 
-## Different from Package "resolve" by Browserify
+## Difference from Package "resolve" by Browserify
 
 The popular module resolving package [resolve](https://www.npmjs.com/package/resolve) resolves a module specifier to a file, and throws an error if not being able to resolve to the final entry point. The `resolve` of Module Lens, however, does only minimal checks to determine where should the specifier be resolved to.
 
