@@ -1,0 +1,10 @@
+{
+  "extends": "../node_modules/@magicspace/configs/tsconfig.json",
+  "compilerOptions": {
+    "types": ["node", "jest"],
+
+    "rootDir": ".",
+    "noEmit": true
+  },
+  "exclude": ["samples"]
+}
