@@ -12,8 +12,8 @@
     "typecheck:test": "tsc -p test",
     "lint:library": "tslint -p src/library",
     "lint:test": "tslint -p test",
-    "test:library": "yarn build:library && yarn lint:library && jest",
-    "test:test": "yarn typecheck:test && yarn lint:test",
+    "test:library": "yarn lint:library && yarn build:library && jest --coverage",
+    "test:test": "yarn lint:test && yarn typecheck:test",
     "test": "yarn test:library && yarn test:test",
     "report-coverage": "cat coverage/lcov.info | coveralls"
   },
