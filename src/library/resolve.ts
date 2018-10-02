@@ -3,7 +3,9 @@ import * as Path from 'path';
 
 import {gentleStat, isDirectorySearchFilter, searchUpperDir} from './@utils';
 
-const BUILT_IN_MODULE_NAME_SET = new Set(Module.builtinModules);
+const BUILT_IN_MODULE_NAME_SET = new Set(
+  Module.builtinModules || Object.keys((process as any).binding('natives')),
+);
 
 export interface ResolveOptions {
   sourceFileName: string;
