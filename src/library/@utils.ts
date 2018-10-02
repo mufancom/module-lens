@@ -14,12 +14,12 @@ export function searchUpperDir(
   searchName: string,
   filter?: SearchFilter,
 ): string | undefined {
-  let nextDir = from;
+  let nextDirName = from;
 
   while (true) {
-    let currentDir = nextDir;
+    let currentDirName = nextDirName;
 
-    let searchPath = Path.join(currentDir, searchName);
+    let searchPath = Path.join(currentDirName, searchName);
 
     let stats: FS.Stats | undefined;
 
@@ -28,12 +28,12 @@ export function searchUpperDir(
     } catch (error) {}
 
     if (stats && (!filter || filter(searchPath, stats))) {
-      return currentDir;
+      return currentDirName;
     }
 
-    nextDir = Path.dirname(currentDir);
+    nextDirName = Path.dirname(currentDirName);
 
-    if (nextDir === currentDir) {
+    if (nextDirName === currentDirName) {
       return undefined;
     }
   }

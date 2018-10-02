@@ -13,14 +13,14 @@ test('Should build relative specifier', () => {
 
 test('Should build specifier using base url', () => {
   let sourceFileName = Path.join(__dirname, 'abc/def.ts');
-  let baseUrlDir = __dirname;
+  let baseUrlDirName = __dirname;
 
   let options: BuildOptions = {
     sourceFileName,
-    baseUrlDir,
+    baseUrlDirName,
   };
 
-  expect(build(Path.join(baseUrlDir, 'foo'), options)).toBe('foo');
-  expect(build(Path.join(baseUrlDir, 'foo/bar'), options)).toBe('foo/bar');
-  expect(build(Path.join(baseUrlDir, '../foo'), options)).toBe('../../foo');
+  expect(build(Path.join(baseUrlDirName, 'foo'), options)).toBe('foo');
+  expect(build(Path.join(baseUrlDirName, 'foo/bar'), options)).toBe('foo/bar');
+  expect(build(Path.join(baseUrlDirName, '../foo'), options)).toBe('../../foo');
 });

@@ -2,26 +2,26 @@ import * as Path from 'path';
 
 export interface BuildOptions {
   sourceFileName: string;
-  baseUrlDir?: string;
+  baseUrlDirName?: string;
 }
 
 export function build(
   path: string,
-  {sourceFileName, baseUrlDir}: BuildOptions,
+  {sourceFileName, baseUrlDirName}: BuildOptions,
 ): string {
-  let sourceDir = Path.dirname(sourceFileName);
+  let sourceDirName = Path.dirname(sourceFileName);
 
   let relativePath: string;
 
-  if (typeof baseUrlDir === 'string') {
-    relativePath = Path.relative(baseUrlDir, path);
+  if (typeof baseUrlDirName === 'string') {
+    relativePath = Path.relative(baseUrlDirName, path);
 
     if (!/^\.\.[\\/]/.test(relativePath)) {
       return format(relativePath, false);
     }
   }
 
-  relativePath = Path.relative(sourceDir, path);
+  relativePath = Path.relative(sourceDirName, path);
 
   return format(relativePath, true);
 }

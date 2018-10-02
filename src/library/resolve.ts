@@ -4,12 +4,13 @@ import * as Path from 'path';
 import {gentleStat, isDirectorySearchFilter, searchUpperDir} from './@utils';
 
 const BUILT_IN_MODULE_NAME_SET = new Set(
-  Module.builtinModules || Object.keys((process as any).binding('natives')),
+  Module.builtinModules ||
+    /* istanbul ignore next */ Object.keys((process as any).binding('natives')),
 );
 
 export interface ResolveOptions {
   sourceFileName: string;
-  baseUrlDir?: string;
+  baseUrlDirName?: string;
   extensions?: string[];
 }
 
@@ -30,7 +31,7 @@ export function resolveWithCategory(
   specifier: string,
   {
     sourceFileName,
-    baseUrlDir,
+    baseUrlDirName,
     extensions = ['.js', '.jsx', '.ts', '.tsx'],
   }: ResolveOptions,
 ): ResolveWithCategoryResult {
@@ -67,14 +68,14 @@ export function resolveWithCategory(
     };
   }
 
-  if (baseUrlDir) {
+  if (baseUrlDirName) {
     let usingBaseUrl = false;
 
     // First segment is exactly the whole specifier, possibly a file name.
     if (specifierFirstFragment === specifier) {
       usingBaseUrl = ['', ...extensions].some(extension => {
         let possiblePathUsingBaseUrl = Path.join(
-          baseUrlDir,
+          baseUrlDirName,
           `${specifier}${extension}`,
         );
 
@@ -86,7 +87,7 @@ export function resolveWithCategory(
 
     if (!usingBaseUrl) {
       let possibleDirUsingBaseUrl = Path.join(
-        baseUrlDir,
+        baseUrlDirName,
         specifierFirstFragment,
       );
 
@@ -98,21 +99,21 @@ export function resolveWithCategory(
     if (usingBaseUrl) {
       return {
         category: 'base-url',
-        path: Path.join(baseUrlDir, specifier),
+        path: Path.join(baseUrlDirName, specifier),
       };
     }
   }
 
-  let nodeModulesParentDir = searchUpperDir(
+  let nodeModulesParentDirName = searchUpperDir(
     Path.dirname(sourceFileName),
     `node_modules/${specifierFirstFragment}`,
     isDirectorySearchFilter,
   );
 
-  if (nodeModulesParentDir) {
+  if (nodeModulesParentDirName) {
     return {
       category: 'node-modules',
-      path: Path.join(nodeModulesParentDir, 'node_modules', specifier),
+      path: Path.join(nodeModulesParentDirName, 'node_modules', specifier),
     };
   }
 
