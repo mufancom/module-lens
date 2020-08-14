@@ -2,39 +2,37 @@
   "name": "module-lens",
   "version": "0.1.5",
   "description": "Simple module specifier utilities.",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/makeflow/module-lens.git"
   },
-  "scripts": {
-    "build:library": "rimraf bld/library && tsc -p src/library",
-    "typecheck:test": "tsc -p test",
-    "lint:library": "tslint -p src/library",
-    "lint:test": "tslint -p test",
-    "test:library": "yarn lint:library && yarn build:library && jest --coverage",
-    "test:test": "yarn lint:test && yarn typecheck:test",
-    "test": "yarn test:library && yarn test:test",
-    "report-coverage": "cat coverage/lcov.info | coveralls"
-  },
+  "license": "MIT",
+  "author": "Chengdu Mufan Technology Co., Ltd.",
   "main": "bld/library/index.js",
   "types": "bld/library/index.d.ts",
   "files": [
     "src/library/**/*.ts",
-    "bld/library"
+    "bld/library",
+    "!*.tsbuildinfo"
   ],
+  "scripts": {
+    "build": "rimraf {bld,.bld-cache} && tsc --build tsconfig.json",
+    "lint": "eslint .",
+    "lint-prettier": "prettier --list-different \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "yarn lint-prettier && yarn build && yarn lint && ject --coverage",
+    "report-coverage": "cat coverage/lcov.info | coveralls"
+  },
   "devDependencies": {
-    "@magicspace/configs": "^0.1.42",
+    "@mufan/code": "^0.2.5",
+    "@mufan/eslint-plugin": "^0.1.32",
     "@types/jest": "^26.0.9",
     "@types/node": "^14.0.27",
-    "coveralls": "^3.0.2",
+    "coveralls": "^3.1.0",
+    "eslint": "^7.7.0",
     "jest": "^26.4.0",
-    "prettier": "^1.14.3",
-    "rimraf": "^2.6.2",
-    "ts-jest": "^23.10.3",
+    "prettier": "^2.0.5",
+    "rimraf": "^3.0.2",
     "tslib": "^2.0.1",
-    "tslint": "^5.11.0",
-    "tslint-language-service": "^0.9.9",
     "typescript": "^3.9.7"
   }
 }

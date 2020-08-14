@@ -1,6 +1,6 @@
 import * as Path from 'path';
 
-import {BuildOptions, build} from '../bld/library';
+import {BuildOptions, build} from '../library';
 
 test('Should build relative specifier', () => {
   let options: BuildOptions = {

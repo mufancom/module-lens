@@ -1,0 +1,8 @@
+{
+  "extends": "@mufan/code-templates/general",
+  "options": {
+    "name": "module-lens",
+    "license": "MIT",
+    "author": "Chengdu Mufan Technology Co., Ltd."
+  }
+}

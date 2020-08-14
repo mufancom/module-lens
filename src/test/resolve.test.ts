@@ -1,6 +1,6 @@
 import * as Path from 'path';
 
-import {ResolveOptions, resolve} from '../bld/library';
+import {ResolveOptions, resolve} from '../library';
 
 test('Should resolve basic module specifier', () => {
   shouldAlwaysResolve(__dirname, {
