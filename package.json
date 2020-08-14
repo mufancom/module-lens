@@ -1,0 +1,15 @@
+{
+  "name": "module-lens",
+  "version": "0.0.0",
+  "license": "MIT",
+  "author": "Chengdu Mufan Technology Co., Ltd.",
+  "scripts": {
+    "lint": "eslint .",
+    "lint-prettier": "prettier --list-different \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "test": "yarn lint-prettier && yarn lint"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "prettier": "^2.0.5"
+  }
+}
