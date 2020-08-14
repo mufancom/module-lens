@@ -42,7 +42,7 @@ export function resolveWithCategory(
     };
   }
 
-  if (/^\//.test(specifier)) {
+  if (Path.isAbsolute(specifier)) {
     return {
       category: 'absolute',
       path: Path.resolve(specifier),
@@ -56,7 +56,8 @@ export function resolveWithCategory(
     };
   }
 
-  let [specifierFirstFragment] = /^[^/]+/.exec(
+  // Support both `@scope/module` and `module`.
+  let [specifierFirstFragment] = /^(?:@[^/]+\/[^/]+|[^@][^/]*)/.exec(
     specifier,
   ) || /* istanbul ignore next */ [undefined];
 

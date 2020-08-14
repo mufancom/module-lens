@@ -65,6 +65,12 @@ test('Should resolve module specifier with multi-level node_modules', () => {
   expect(resolve('foo/abc', options)).toBe(
     Path.join(projectDirName, 'yoha/node_modules/foo/abc'),
   );
+  expect(resolve('@scope/abc', options)).toBe(
+    Path.join(projectDirName, 'yoha/node_modules/@scope/abc'),
+  );
+  expect(resolve('@scope/def', options)).toBe(
+    Path.join(projectDirName, 'node_modules/@scope/def'),
+  );
 
   expect(resolve('pia', options)).toBe(
     Path.join(projectDirName, 'yoha/node_modules/pia'),
