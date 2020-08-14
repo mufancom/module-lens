@@ -19,7 +19,7 @@
     "build": "rimraf {bld,.bld-cache} && tsc --build tsconfig.json",
     "lint": "eslint .",
     "lint-prettier": "prettier --list-different \"**/*.{ts,tsx,js,jsx,json,md}\"",
-    "test": "yarn lint-prettier && yarn build && yarn lint && ject --coverage",
+    "test": "yarn lint-prettier && yarn build && yarn lint && jest --coverage",
     "report-coverage": "cat coverage/lcov.info | coveralls"
   },
   "devDependencies": {
