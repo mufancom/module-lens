@@ -1,6 +1,6 @@
 {
   "root": true,
-  "ignorePatterns": ["bld", "coverage", "src/test/samples"],
+  "ignorePatterns": ["bld", "coverage", "test/samples"],
   "extends": ["eslint:recommended"],
   "env": {
     "node": true,

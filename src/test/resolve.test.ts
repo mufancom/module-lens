@@ -2,14 +2,16 @@ import * as Path from 'path';
 
 import {ResolveOptions, resolve} from '../library';
 
+const SAMPLES_ROOT = Path.join(__dirname, '../../test/samples');
+
 test('Should resolve basic module specifier', () => {
-  shouldAlwaysResolve(__dirname, {
-    sourceFileName: __filename,
+  shouldAlwaysResolve(SAMPLES_ROOT, {
+    sourceFileName: Path.join(SAMPLES_ROOT, '__placeholder__'),
   });
 });
 
 test('Should resolve module specifier using base url', () => {
-  let projectDirName = Path.join(__dirname, 'samples/project-a');
+  let projectDirName = Path.join(SAMPLES_ROOT, 'project-a');
   let sourceFileName = Path.join(projectDirName, 'pia/hia.ts');
   let sourceDirName = Path.dirname(sourceFileName);
 
@@ -28,7 +30,7 @@ test('Should resolve module specifier using base url', () => {
 });
 
 test('Should resolve module specifier with node_modules', () => {
-  let projectDirName = Path.join(__dirname, 'samples/project-b');
+  let projectDirName = Path.join(SAMPLES_ROOT, 'project-b');
   let sourceFileName = Path.join(projectDirName, 'abc/def.ts');
   let sourceDirName = Path.dirname(sourceFileName);
 
@@ -51,7 +53,7 @@ test('Should resolve module specifier with node_modules', () => {
 });
 
 test('Should resolve module specifier with multi-level node_modules', () => {
-  let projectDirName = Path.join(__dirname, 'samples/project-b');
+  let projectDirName = Path.join(SAMPLES_ROOT, 'project-b');
   let sourceFileName = Path.join(projectDirName, 'yoha/abc/def.ts');
   let sourceDirName = Path.dirname(sourceFileName);
 
@@ -83,7 +85,7 @@ test('Should resolve module specifier with multi-level node_modules', () => {
 });
 
 test('Should resolve module specifier using base url and with node_modules', () => {
-  let projectDirName = Path.join(__dirname, 'samples/project-c');
+  let projectDirName = Path.join(SAMPLES_ROOT, 'project-c');
   let baseUrlDirName = Path.join(projectDirName, 'base');
   let sourceFileName = Path.join(baseUrlDirName, 'test.ts');
   let sourceDirName = Path.dirname(sourceFileName);
